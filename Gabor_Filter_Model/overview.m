@@ -1,4 +1,8 @@
 %% overview:
+% this path needs to point to the stimulus frames:
+stimulus_folder = "D:\Data\MC_MotionMule_StimFrame_for_analysis";
+
+
 % general setting concerning the tuning-width of the Gabors
 % 0.55: ~44° FWHM
 SpatialAspectRatio = 0.55;
@@ -8,10 +12,7 @@ rerun = 0;  % This runs the fit again
 raw_gabors = 1;
 fit_outerSurroundLimit = 1;  % Sets if we want to have an outer limit for the surround area (this was good to test but didnt improve it)
 use_SurrSupp = 2;  % 1: subtractive surrSupp and 2: divisive surround suppression!
-use8oris = 0;  % This was just a test to use a larger surround, but it didnt help!
-use_orientation_unspecific_surround = 0;  % This was used during testing
 
-compute_individual_session_R2 = 0;
 
 %% 1. Determine SpatialAspectRatio:
 if 0  % set 0 to skip this if you dont want to rerun this script
@@ -37,35 +38,29 @@ if 0
     % Here I'm computing the gabor energy-responses for each of our
     % Stimulus frames. These response curves are what the subsequent
     % analysis are based on.
-    Compute_Gabor_responses_for_stimulus_frames.m
+    Compute_Gabor_responses_for_stimulus_frames
 end
 
 
-%% 4. to render out the individual Gabor images for visualization
-if 0
-    Save_gabors_individually
-end
 
-
-%% 5. Fit the amplitudes based on the Gabor-responses to the MotionClouds
-match_means = 0;  % rather to adjust the fit itself to only focus on the orientation-dependence. Not done in the final version anymore.
-match_means_R2_only = 1;  % used for computing the R2
+%% 4. Fit the amplitudes based on the Gabor-responses to the MotionClouds
+% match_means = 0;  % rather to adjust the fit itself to only focus on the orientation-dependence. Not done in the final version anymore.
+% match_means_R2_only = 1;  % used for computing the R2
 
 % This script fits the raw Gabor responses to the measured amplitudes with
 % narror and Ori stimuli. It also plots the derived response modulation.
 amplitudes_raw_gabors_with_surroundSupression
 
 
-%% 6. Based on these fitted amplitudes I now predict the recruitment. 
+%% 5. Based on these fitted amplitudes I now predict the recruitment. 
 % Assuming a linear relationship. The idea here is that I'm describing the 
 % average response amplitudes of the population above and a higher response
 % amplitude should related to a higher probability of the cells to register
 % as responsive.
-use_intercept = 0;
 recruitment_modulation_from_amplitudes
 
 
-%% 7. also plot the individual amplitude fits
+%% 6. also plot the individual amplitude fits
 % The models are fit individually to the amplitude responses
 % towards narror and Ori stimuli. This fit is visualized here for
 % Figure 3

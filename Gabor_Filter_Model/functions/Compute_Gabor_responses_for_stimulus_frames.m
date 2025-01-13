@@ -7,8 +7,6 @@
 %  Based on these Response curves I subsequently compute the amplitude
 %  prediction and fit the cell-recruitment prediction. 
 %  By: Gerion Nabbefeld, 2023.
-% addpath("...\GitHub\MotionCloud_Stimuli_PC_analysis\finding_gabor_max_responses");
-
 close all;
 
 % stimulus settings
@@ -18,7 +16,6 @@ n_folders = 8;   % individual realizations of MotionClouds per condition (8=all)
 bin_f = 4;       % spatial binning of stimulus frames
 
 % stimulus/RF settings
-spatial_magnitudes = 1;  % this one frlags if I want to keep the spatial map of the gabor responses
 img_size = [90 160];  % after binning, assuming bin_f=4
 
 fullfield_coverage = 130;  % the stimulus covers 130deg on the monitor in the horizontal
@@ -72,11 +69,10 @@ for stim_id = 1:4
 frame_Cnt = 0;
 for folder_id = (1:n_folders) + (stim_id-1)*8
     for frame_id = 1:n_frames
-        stimulus_folder = "D:\Data\MC_MotionMule_StimFrame_for_analysis";
         img_path = stimulus_folder + "\" + sprintf("%03d%sframe_%03d.png", folder_id, filesep, frame_id);
         % A subset of frames had more leading zeros in the name. This accounts for these:
         if ~exist(img_path, "file")
-            img_path = "D:\Data\MC_MotionMule_StimFrame_for_analysis\" + sprintf("%03d%sframe%06d.png", folder_id, filesep, frame_id);
+            img_path = stimulus_folder + "\" + sprintf("%03d%sframe%06d.png", folder_id, filesep, frame_id);
         end
 
         % convert to range: [-1 1]

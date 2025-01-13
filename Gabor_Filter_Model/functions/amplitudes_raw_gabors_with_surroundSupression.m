@@ -1,20 +1,15 @@
-% This is the main Script that we based the Final Fit for the Amplitudes
-% on!
+% In this script we fit the measured amplitudes towards narror and Ori
+% stimuli with the responses of Gabor filters towards the stimulus frames
 modIdx = @(a, b) squeeze((a-b)./(a+b));
 
 % for reproducibility
 rng("default");
 
-plot_violins = 1;
 SF_ids = 1:5;
 
 % I want to put this in a overarching script running them all in sequence
 if ~exist("SpatialAspectRatio", "var")
     SpatialAspectRatio = 0.55;
-end
-
-if ~exist("use_orientation_unspecific_surround", "var")
-    use_orientation_unspecific_surround = 0;
 end
 
 
@@ -80,9 +75,8 @@ end
 
 
 % define activation fuction to use
-fit_str = "raw_gabors";
 activation_fun = @activation_fun_raw_gabors;
-model_str = fit_str;
+model_str = "raw_gabors";
 
 % construct model_str for saving
 model_str = model_str + "_sar"+SpatialAspectRatio;
@@ -95,11 +89,7 @@ if use_SurrSupp == 2
     model_str = model_str + "_divisiveSupp";
 end
 
-
-figName = model_str + "_matchMeans" + match_means_R2_only;
-if compute_individual_session_R2
-    figName = figName + "_individual_session_R2";
-end
+figName = model_str;
 
 
 
@@ -154,7 +144,7 @@ ylim([0 0.03]);
 %%
 if rerun  % rerun fit
     max_iter = 100;
-    [parameters, fval] = fit_MC_amplitudes(activation_fun, gabor_responses(:, :, :, ori_ids, :, :), data2fit, max_iter, use_SurrSupp, raw_gabors, fit_outerSurroundLimit);
+    [parameters, fval] = fit_MC_amplitudes(activation_fun, gabor_responses(:, :, :, ori_ids, :, :), data2fit, max_iter, use_SurrSupp, 1, fit_outerSurroundLimit);
 
     % save fit for later use
     save("amplitude_fit_parameters_"+model_str+".mat", "scale_factor", "parameters", "fval");
@@ -191,7 +181,6 @@ end
 %%
 % Save the Amplitude-predictions:
 amplitude_predictions = activation_fun(gabor_responses, parameters, use_SurrSupp);
-
 amplitude_predictions_selected_oris = amplitude_predictions(:, ori_ids);
 save("prediction_files\amplitude_predictions_" + model_str + ".mat", ...
      "amplitude_predictions", ...
@@ -199,25 +188,6 @@ save("prediction_files\amplitude_predictions_" + model_str + ".mat", ...
      "raw_gabor_prediction", ...
      "raw_gabor_prediction_selected_oris", ...
      "scale_factor", "-v7.3");
-
-
-figure(2);
-subplot(1, 2, 2); hold off;
-for i = 1:size(cl, 1)
-    plot(-90+1:90, amplitude_predictions(i, :)', "color", cl(i, :), "LineWidth", 2); hold on;
-end
-xlabel("Orientation"); xticks(-90:90:90);
-title("Fit Amplitudes");
-xlim([-90 90]);
-ylim([0 0.03]);
-
-
-%%
-drawnow; fontsize_for_every_figure_element(6, "normal", 0.5);
-set(findobj(gcf,'Type','line'), "LineWidth", 1.5);
-drawnow; set(gcf, 'Units', 'centimeters', 'Position', [.5, 2, 16 .* (1.5/5), 25.2 .* (0.4/4)], 'PaperUnits', 'centimeters', 'PaperSize', [21, 29.7]); drawnow;
-
-exportgraphics(gcf, "Fit_response_amplitudes_"+model_str+".png", "resolution", 300);
 
 
 %%
@@ -258,10 +228,9 @@ end
 predict_R2 = predicted_data - nanmean(predicted_data) + nanmean(nanmean(measured_data));
 R2 = 1 - (nansum(power(measured_data - predict_R2, 2)) ./ nansum(power(measured_data - nanmean(measured_data), 2)));
 
-if plot_violins
-    v = violinplot(session_wise_idx);
-    for i = 1:length(v); v(i).ViolinColor = cl(2, :); end
-end
+% plot measured data
+v = violinplot(session_wise_idx);
+for i = 1:length(v); v(i).ViolinColor = cl(2, :); end
 
 
 predicted_data2 = ori_fit_center_only;
@@ -287,25 +256,27 @@ ylim([-0.35 0.39]);
 text(1.2, 0.45, "R²=" + sprintf("%0.3f", R2), "color", temp_cl_supp);
 text(1.2, 0.55, "R²=" + sprintf("%0.3f", R2_2), "color", temp_cl_tuning);
 
+% set axis lims and ticks
+ylim([-0.6 0.6]);
+yticks(-0.6:0.3:0.6);
+
+% define legend spoition for better control
+legend(h, "Position", [0.707 0.83 0.17 0.09]);
+
+% renamve for clarity when saving
 R2_ori = R2;
 R2_ori_center_only = R2_2;
 
-if plot_violins; ylim([-0.6 0.6]); yticks(-0.6:0.3:0.6); end
 
-legend(h, "Position", [0.707 0.83 0.17 0.09]);
-
-
-% save results
-if raw_gabors   
-    disp("Saved: "+ "prediction_files\amplitude_modulation_idx_predictions_"+figName+".mat")
-    save("prediction_files\amplitude_modulation_idx_predictions_"+figName+".mat", ...
-         "scale_factor", ...
-         "amplitude_measured_ori", ...
-         "amplitude_prediction_center_only_ori", ...
-         "amplitude_prediction_center_surround_ori", ...
-         "R2_ori", "R2_ori_center_only", ...
-         "-v7.3");
-end
+%% save results
+disp("Saved: "+ "prediction_files\amplitude_modulation_idx_predictions_"+figName+".mat")
+save("prediction_files\amplitude_modulation_idx_predictions_"+figName+".mat", ...
+     "scale_factor", ...
+     "amplitude_measured_ori", ...
+     "amplitude_prediction_center_only_ori", ...
+     "amplitude_prediction_center_surround_ori", ...
+     "R2_ori", "R2_ori_center_only", ...
+     "-v7.3");
 
 
 
@@ -315,55 +286,23 @@ end
 
 %% functions
 function activation = activation_fun_raw_gabors(data, x, use_SurrSupp)
-    if use_SurrSupp == 1
-        surround_threshold = x(1);
-        surround_weight    = x(2);
-        offset = x(3);
-        if length(x) > 3
-            surround_threshold_outer = x(4);
-        else
-            surround_threshold_outer = inf;
-        end
+    surround_threshold = x(1);
+    surround_weight    = x(2);
+    offset = x(3);
+    if length(x) > 3
+        surround_threshold_outer = x(4);
+    else
+        surround_threshold_outer = 15;
+    end
 
-        if length(x) > 3
-            center_weight = x(5);
-        else
-            center_weight = 1;
-        end
-        
-        if (size(data, 1) == 37) && (size(data, 2) == 37)
-            data = add_surround_supression(data, surround_threshold, surround_weight, offset, surround_threshold_outer, use_SurrSupp, center_weight);
-        end
-    elseif use_SurrSupp == 2
-        surround_threshold = x(1);
-        surround_weight    = x(2);
-        offset = x(3);
-        if length(x) > 3
-            surround_threshold_outer = x(4);
-        else
-            % surround_threshold_outer = inf;
-            surround_threshold_outer = 15;
-        end
-        % if surround_threshold_outer < surround_threshold; surround_threshold_outer = surround_threshold + 1; end
-
-        if length(x) > 4
-            center_weight = x(5);
-        else
-            center_weight = 1;
-        end
-        
-        if (size(data, 1) == 37) && (size(data, 2) == 37)
-            data = add_surround_supression(data, surround_threshold, surround_weight, offset, surround_threshold_outer, use_SurrSupp, center_weight);
-        end
-    elseif use_SurrSupp == 0
-        % center only - NOT APPLICABLE, but I might as well leave it!
-        if (size(data, 1) == 37) && (size(data, 2) == 37)
-            data = data(19, 19, :, :, :, :);
-        elseif (size(data, 1) == 1) && (size(data, 2) == 1)
-            disp("");
-        else
-            warning("Unexpected data shape in activation_fun()");
-        end
+    if length(x) > 4
+        center_weight = x(5);
+    else
+        center_weight = 1;
+    end
+    
+    if (size(data, 1) == 37) && (size(data, 2) == 37)
+        data = add_surround_supression(data, surround_threshold, surround_weight, offset, surround_threshold_outer, use_SurrSupp, center_weight);
     end
 
     % redundant but just in case

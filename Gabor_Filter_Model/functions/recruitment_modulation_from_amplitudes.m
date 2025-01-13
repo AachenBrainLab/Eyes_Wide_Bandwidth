@@ -16,8 +16,7 @@ end
 if use_SurrSupp == 2
     model_str = model_str + "_divisiveSupp";
 end
-
-figName = model_str + "_matchMeans" + match_means_R2_only;
+figName = model_str;
 
 
 for plot_SurrSupp = 0:1
@@ -87,10 +86,10 @@ R2_ori = 1 - (nansum((y - predict_R2).^2) ./ nansum((y - nanmean(y)).^2));
 
 subplot(2, 3, 4:5); hold off;
 plot([0 6], [0 0], "--k"); hold on;
-if plot_violins
-    v = violinplot(ORI_recruitment_idx);
-    for i = 1:length(v); v(i).ViolinColor = cl(end, :); end
-end
+
+v = violinplot(ORI_recruitment_idx);
+for i = 1:length(v); v(i).ViolinColor = cl(end, :); end
+
 text(1.2, 0.45, "R² = "+sprintf("%0.3f", R2_ori), "color", temp_cl_supp);
 % try
 if plot_SurrSupp
