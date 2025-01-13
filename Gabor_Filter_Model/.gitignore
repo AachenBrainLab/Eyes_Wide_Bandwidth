@@ -1,0 +1,15 @@
+# ignore these file types
+**/*.asv
+**/*.png
+**/*.csv
+**/*.svg
+**/*.fig
+**/*.asv
+**/*.mat
+**/*.zip
+**/*.pkl
+**/*.pdf
+**/*.xlsx
+
+# This file is far to large and can be generated from the stimulus frames themselves
+amplitude_fit_parameters_raw_gabors_sar0.55_outerSurroundLim_divisiveSupp.mat

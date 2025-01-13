@@ -9,3 +9,6 @@ PS_stimulus_analysis/Stimulus_sepearbility_PCA.m: generates PCA plot for S7
 PS_stimulus_analysis/PS_CrossEnergy_statistics_for_Figure_S7.m: Plots and compares the CrossScales and CrossOrientation Energies.
 PS_stimulus_analysis/compute_meanAutoCorrReal.m: Fetches the individual frame auto-correlations from the PS-analysis and averages by conditions for visualization
 
+
+# Gabor filter model
+Gabor_Filter_Model/overview.m: contains an overview over the different script used to characterize the Gabor filters and fit the model to the measured responses. 
