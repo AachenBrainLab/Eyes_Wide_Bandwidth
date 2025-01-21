@@ -1,6 +1,6 @@
 # Eyes_Wide_Bandwidth 
 This repository contains imaging analysis scripts from Balla et al. Nature Communications, 2025. 
-Step 1: get the processed data from Zenodo [http://doi.org/doi 10.5281/zenodo.14605879]. 
+Step 1: get the processed data from Zenodo [http://doi.org/10.5281/zenodo.14605879]. 
 
 
 # 2Photon_analysis 
