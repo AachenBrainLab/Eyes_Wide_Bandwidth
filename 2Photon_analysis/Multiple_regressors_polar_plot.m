@@ -1,5 +1,5 @@
 %% Loading the relevant variables
-% Step 1: get the processed data from Zenodo [http://doi.org/doi 10.5281/zenodo.14605879]. 
+% Step 1: get the processed data from Zenodo [http://doi.org/10.5281/zenodo.14605879]. 
 load('Responses_all_sessions.mat');  % This loads the table of responses for the 13 recording session of the Niell mice (see Figure 4)
 
 %% some further processing steps 
