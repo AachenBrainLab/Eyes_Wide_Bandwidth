@@ -14,7 +14,7 @@ of orientation tuning, FF input and surround suppresion on orientation bandwidth
 - requires ('Responses_all_sessions.mat') from Zenodo
 
 motion_clouds_disributions.m picks up the data from the excel sheets in the respective stimulus folders 
-and plots the orientation distributions as seen in figure 1 panel b.
+and plots the orientation distributions as seen in Figure 1 panel b.
 - requires (narrow_bandwidth, mid_bandwidth and broad bandwidth files ) from Zenodo
   
 orientation_analysis.ijm: a batch file for running directionality on the example stimuli
@@ -27,7 +27,7 @@ LME_compare.m: does a linear mixed effects model comparison of variables, while 
 
 LME_compare_3vars.m: compares the role of three variables to explain target data , while controlling for the impact of the random variable 'randomVar'. 
 
-niceFigures.m:f function that changes axes and other figure parameters for better aesthetics 
+niceFigures.m: function that changes axes and other figure parameters for better aesthetics 
 
 raincloudPlot.m: plots vertical raincloud plots (i.e. half violins + boxplots + scatterplots) 
 
