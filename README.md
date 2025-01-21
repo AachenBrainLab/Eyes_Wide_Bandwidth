@@ -20,18 +20,27 @@ and plots the orientation distributions as seen in figure 1 panel b.
 orientation_analysis.ijm: a batch file for running directionality on the example stimuli
 
 ***helper functions***
+
 cardinal_line.m: plots horizontal or vertical lines at desired postitions/ color specs etc.
+
 LME_compare.m: does a linear mixed effects model comparison of variables, while controlling for the impact of the random variable 'randomVar'.
+
 LME_compare_3vars.m: compares the role of three variables to explain target data , while controlling for the impact of the random variable 'randomVar'. 
+
 niceFigures.m:f function that changes axes and other figure parameters for better aesthetics 
+
 raincloudPlot.m: plots vertical raincloud plots (i.e. half violins + boxplots + scatterplots) 
 
 
 # Scripts for Portilla and Simoncelli analysis, presented in S7
 PS_stimulus_analysis: Contains scrips for the Portilla Simoncelli Analysis in S7.  
+
 PS_stimulus_analysis/PC_stats_individual_frames.m: computes the PS-stats for each stimulus frame individually. Used by scripts below.  
+
 PS_stimulus_analysis/Stimulus_sepearbility_PCA.m: generates PCA plot for S7.  
+
 PS_stimulus_analysis/PS_CrossEnergy_statistics_for_Figure_S7.m: Plots and compares the CrossScales and CrossOrientation Energies.  
+
 PS_stimulus_analysis/compute_meanAutoCorrReal.m: Fetches the individual frame auto-correlations from the PS-analysis and averages by conditions for visualization.  
 
 
