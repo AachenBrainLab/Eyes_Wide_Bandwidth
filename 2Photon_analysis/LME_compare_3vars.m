@@ -1,5 +1,5 @@
 function [pVals, tStats, fullmodel, modelCompare1, modelCompare2, modelCompare3 ] = LME_compare_3vars(targData, predict1, predict2, predict3, randomVar)
-% function to compare to role of two variables predict1 and predict2 to explain 
+% function to compare to role of three variables predict1, predict2 and predict3 to explain 
 % 'targData' a mixed effect model, while controlling for the impact of the
 % random variable 'randomVar'. The pVals and tStats are quantifying how predictive 
 % predict1 or predict2 are of targData, when controlling for the role of randomVar in a reduced model.
