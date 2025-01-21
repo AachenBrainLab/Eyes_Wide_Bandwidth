@@ -1,7 +1,7 @@
 %% Here I load all the Directionality results and estimate the Orientation distribution of the total MC generation example
 close all; clear all; clc;
 %%% Gabor model comparisons from figure 3 
-% Step 1: get the processed data from Zenodo [http://doi.org/doi 10.5281/zenodo.14605879]. 
+% Step 1: get the processed data from Zenodo [http://doi.org/10.5281/zenodo.14605879]. 
     % The folders low-bandwidth, mid_bandwidth and high_bandiwdth contain frames from an example rendering 
     % of our MC stimuli with the Orientation BW parameters used for this project. 
     % 
