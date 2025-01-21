@@ -1,6 +1,6 @@
 
 %%% Gabor model comparisons from figure 3 
-% Step 1: get the processed data from Zenodo [http://doi.org/doi 10.5281/zenodo.14605879]. 
+% Step 1: get the processed data from Zenodo [http://doi.org/10.5281/zenodo.14605879]. 
 load('Gabor_model_comparisons.mat')
 
 %% general variables, this is for pooling accross all cells
